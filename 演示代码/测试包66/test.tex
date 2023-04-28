@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\begin{document}
+
+\begin{algorithm}
+\caption{Ant Colony Optimization Algorithm}\label{alg:aco}
+\begin{algorithmic}[1]
+\STATE Initialize pheromone matrix $P$
+\STATE Initialize ants' positions $S$
+\WHILE{termination criterion is not met}
+\FOR{each ant $i \in {1, 2, ..., n}$}
+\STATE Move ant $i$ to the next node based on the probabilities $p_{i,j}$ given by Equation (\ref{eq:prob})
+\ENDFOR
+\STATE Update pheromone matrix $P$ based on Equation (\ref{eq:pheromone})
+\ENDWHILE
+\RETURN Best solution found during the iterations
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{Move Ant}\label{alg:move}
+\begin{algorithmic}[1]
+\STATE Compute the probabilities $p_{i,j}$ of moving from node $i$ to node $j$ using Equation (\ref{eq:prob})
+\STATE Choose the next node based on the probabilities $p_{i,j}$ and the pheromone levels on the edges
+\STATE Update the ant's position
+\end{algorithmic}
+\end{algorithm}
+
+\begin{equation}
+p_{i,j} = \frac{[\tau_{i,j}(t)]^\alpha \cdot [\eta_{i,j}]^\beta}{\sum\limits_{k \in N_i}[\tau_{i,k}(t)]^\alpha \cdot [\eta_{i,k}]^\beta}\label{eq:prob}
+\end{equation}
+
+\begin{equation}
+\tau_{i,j}(t+1) = (1 - \rho) \cdot \tau_{i,j}(t) + \sum\limits_{k=1}^n \Delta\tau_{i,j}^k(t)\label{eq:pheromone}
+\end{equation}
+
+\begin{equation}
+\Delta\tau_{i,j}^k(t) = \begin{cases}
+Q/L_k & \text{if ant $k$ uses edge $(i,j)$ in its path}\
+0 & \text{otherwise}
+\end{cases}
+\end{equation}
+
+where $\tau_{i,j}(t)$ is the pheromone level on the edge from node $i$ to node $j$ at time $t$, $\eta_{i,j}$ is the desirability of moving from node $i$ to node $j$, $\alpha$ and $\beta$ are parameters that control the importance of pheromone and desirability, $\rho$ is the pheromone evaporation rate, $Q$ is a constant that determines the amount of pheromone deposited, $L_k$ is the length of the path taken by ant $k$, and $\Delta\tau_{i,j}^k(t)$ is the amount of pheromone deposited on edge $(i,j)$ by ant $k$ at time $t$.
+
+\end{document}
